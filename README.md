@@ -1,5 +1,5 @@
 # PURPOSE OF THIS REPO
-The purpose of this repo is for task phase of cryptonite stedent project MIT,Manipal
+The purpose of this repo is for task phase of cryptonite student project MIT,Manipal
 
 # FILE NAMING METHOD
 M refers to Module.  
