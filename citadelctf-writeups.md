@@ -39,7 +39,7 @@ Taste Of Sweetness
 ## My solve
 **Flag:** `citadel{fru1tc4k3_4nd_c00k13s}`
 
-This one was comparatively easier for me. I have learn MERN stack in the past and hence knew about the cookie feature before-hand. So when the website told me "How does website remember you" I just opened the inspect window and edited the cookie value from user to admin by going into Application part of inspect.
+This one was comparatively easier for me. I have learnt MERN stack in the past and hence knew about the cookie feature before-hand. So when the website told me "How does website remember you" I just opened the inspect window and edited the cookie value from user to admin by going into Application part of inspect.
 
 ## What I learned
 Cookie editing
@@ -61,7 +61,7 @@ My teammate put the ciphertext into google to realise it was `ROT cipher` after 
 ROT Cipher
 
 ## References 
-None
+Chatgpt
 
 
 
@@ -156,23 +156,37 @@ https://therobotstrail.citadel.cryptonitemit.in/file?path=/home/ctf/.secret/flag
 This url finally gave me the flag.
 
 ## What I learned
-Basic Searching Through Discord
+URL manipulation
 
 ## References 
-None
+Chatgpt
 
 
 
 # Challenge Name
-Zahard Welcome
+schlagenheim
 
 ## My solve
-**Flag:** `citadel{7h3_c174d3l_b3ck0n5}`
+**Flag:** `citadel{8lackM1D1wa5c00l}`
 
-It told us to visit the place everywhere gathers so I first checked into the general section of the official discord server but in the meanwhile my teammate checked for other sections eventually we got the flag simply pasted in `Rules` Section of Discord.
+1. I first saw the header of the file using the `xxd` command
+```bash
+xxd mysong.wav | head
+```
+After seeing the header it was clear that the file is MIDI file and hence i opened the file in a hex editor and change the first four bytes as: `4D 54 68 64` which is the original header of a MIDI file.
+```bash
+hexedit mysong.wav
+```
+Then I finally renamed the file with `.mid` extension
+```bash
+mv mysong.wav mysong.mid
+```
+2. After reparing the file I opened it using a MIDI file viewer and got the flag as shown in the screenshot below:
+
+![Image showing the repaired file opened in a MIDI file viewer](images/midi.png )
 
 ## What I learned
-Basic Searching Through Discord
+File repairing using xxd and midi file format
 
 ## References 
-None
+Gemini AI
