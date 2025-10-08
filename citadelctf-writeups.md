@@ -190,3 +190,37 @@ File repairing using xxd and midi file format
 
 ## References 
 Gemini AI
+
+
+
+# Challenge Name
+XOR Slide
+
+## My solve
+**Flag:** ``
+
+I have read a bit of cryptography and suspected it can be the same XOR function that is used in various encryption standards and ciphers such as "DES" i.e Data Encryption Standard.
+Unfortunately I had zero idea about how to make a python script to solve the question. Because of this I decided to take the help of AIs to see if they by any chance knew how to make the python script that can solve it. The AI made a lot of python script(around 10) and after trying everything one by one I finally got the flag(Unfortunately I am not able to find the exact py file which I used for getting the flag eventually).
+
+## What I learned
+XOR decryption
+
+## References 
+Chatgpt and Gemini
+
+
+
+# Challenge Name
+Sound of Music
+
+## My solve
+**Flag:** `citadel{c0mputers_st0pped_exchang1ng_1nf0rmat10n_n_started_shar1ng_st0r1es_n_then_they_were_n0where_t0_be_f0und}`
+
+1. In this question I first searched for all music related apps where you can rate/review music. After knowing the names I created my profile on all those websites to understand how they store user profile urls.
+For eg. rate your music stores profile data with this url :"https://rateyourmusic.com/~AKG451" where AKG451 is my username so I basically just changed AKG451 in all such websites by citadweller and got to the profile of `citadweller` eventually I found all three parts of the flag i.e `citadel{c0mputers_st0pped_exchang1ng_1nf0rmat10n` from `last.fm/user/citadweller`, `_n_started_shar1ng_st0r1es` from `https://rateyourmusic.com/~citadweller` and `_n_then_they_were_n0where_t0_be_f0und}` from the tinyurl link on rate your music `http://tinyurl.com/citadweller`
+
+## What I learned
+OSINT
+
+## References 
+Google
