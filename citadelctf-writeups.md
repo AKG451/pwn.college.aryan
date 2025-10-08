@@ -25,7 +25,9 @@ Omniscent Metadata
 **Flag:** `citadel{th1s_ch4ll3ng3_1s_f0r_th4t_0n3_ex1ft00l_4nd_b1nw4lk_enthus14st}`
 
 1. I firstly went to a metadata extracter website and took out teh metadata inside the metadata it was written "kdj has the habit of hiding image inside an image".
+
 2. I first thought this can be a steganography question just like the one in ChildrenOfNite challenge so I ran the command `steghide extract -sf challenge.jpg` but to run such commands you need to know the paraphase which I didn't in this case.
+
 3. Since I wasn't sure what to do next I searched `How to find a image inside an image` there I found a video by ctf school on binwalker and next I used binwalker to finally get the flag.
 Note: After reading the official Write-up I understood that this exercise was very easy and I just had to use `foremost`
 
@@ -83,7 +85,9 @@ merge it, branch it, tag it, log it,
 add it, stash it, diff, untrack it … 
 ```
 I thought I just had to execute these commands using bash on the repo link given. So i went into my bash and i tried to clone it but the access was denied so I understood this wasn't the right way and hence i decided to look furthur.
+
 2.My teammates started searching through all files and I started searching the commits. I found the first suspicious commit with the name `Remove secret chunk 3 file (history-only)` I loaded it and got a strange ciphertext. Putting it into chatgpt it told me that it was a base64 encode text and the decoded text is this: `dDBfZzF0X2x1Y2t5fQ== → t0_g1t_lucky}` now i knew that we are on the right path and hence we all started searching the commit history and eventually getting all the parts of the flag.
+
 ## What I learned
 Reading the commit history of a repository.
 
@@ -238,8 +242,11 @@ Echoes and Pings
 **Flag:** `citadel{1_r34lly_w4nt_t0_st4y_4t_y0ur_h0us3}`
 
 1. When i first saw the `pcap` file my first reaction was searching on the internet to understand "how to analyse a pcap file". The first answer was `wireshark` so I installed wireshark and loaded the file into it. Unfortunately I didn't understood anything that was being displayed there.
+
 2. So it was time to search on youtube for "How to use wireshark to analyse pcap" I have attached the link of the video I used to learn about it plus I also asked AI what can be the process of analysing such files. Chatgpt suggested me to look into "ICMP" that is internet control message protocol since that's what deals with echoes and pings.
+
 3. I am attaching images to show what I did and how I did:
+
 ![Start screen after loading the file](images/ws1.png "Start Screen after Loading the file")
 image1:Start Screen after Loading the file
 ![Alt text](images/ws2.png "Filtering to icmp only")
@@ -248,8 +255,11 @@ image2:Filtering to icmp only
 image3:Opening the first protocol
 
 4.Now I saw the text "jfif" searched for it on chatgpt and got to know that there is a image hidden in it.
+
 5. To extract that image chatgpt wrote a scapy python code which I ran and got the answer using that python script.
+
 6. the python script: 
+
 ```bash
 from scapy.all import rdpcap, Raw
 
@@ -591,6 +601,7 @@ We only go backward
 **Flag:** `citadel{f0r_0n3_m0r3_h0ur_1_c4n_r4g3}`
 
 1.This was the most time consuming question for me since I had no idea what to do with file `tameimpala`. I first went and read it's file properties and there it showed that the file is executable type and obviously I didn't knew what that was. I ran that file with the command `./tameimpala`. After that I saw it asked for a key to proceed ahead to Level 2. I put the file into chatgpt and it told me that for this question I will have to use Ghidra or IDA for the question. I first tried with Ghidra but was having a little hard time understanding anything with it. I decided to switch to IDA since I read on google that it is comparatively more user friendly.
+
 2. Now after installing IDA I asked for exact steps from Chatgpt on how to reverse engineer a file using IDA. Nearly after 30-60 minutes of learning from here and there I finally got the answer for Level 1 and Level 2 since they were just basically hardcoded in the function itself. In IDA I filtered strings by "LEVEL" and double clicked the level I wanted to reverse engineer. After that pressing F5 takes us to the decompilation window. This is how I got the answers for Level 1 and Level 2 which was `Music to Walk Home By` and `8168008135` respectively. But Level 3 function was much more complex since it had some encryption formula. What I did for solving this is I copied hex dump, function code, sub_1240 code and even xxxmword code and gave it to chatgpt to compute further and find me the answer by decrpyting the encryption formula and hence got the flag. I have attached all the files in the folder called `"reverse"`.
 
 ## What I learned`
