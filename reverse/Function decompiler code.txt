@@ -1,0 +1,38 @@
+Function decompiler code
+
+int sub_1340()
+{
+  int v0; // eax
+  __int64 v2; // [rsp+8h] [rbp-90h] BYREF
+  char s[136]; // [rsp+10h] [rbp-88h] BYREF
+
+  puts("\n=== LEVEL 2 ===");
+  puts("it's time for some mind mischief! ");
+  puts("what number is kevin parker thinking of right now: ");
+  if ( (unsigned int)__isoc99_scanf("%llu", &v2) != 1 )
+  {
+    puts("Bad input.");
+    exit(0);
+  }
+  if ( (unsigned __int64)(v2 - 0x1E6D9E9C7LL) > 4 )
+    return puts("why won't you make up your mind? the number he's thinking of is way cooler");
+  puts("see! all you had to do was let it happen. ");
+  puts("but let's hope it wasn't just instant destiny. ");
+  puts("\n=== LEVEL 3 ===");
+  puts("don't make kevin wait for one more year. give him the flag and set your reality in motion! ");
+  printf("Flag: ");
+  do
+    v0 = getc(stdin);
+  while ( v0 != -1 && v0 != 10 );
+  if ( !fgets(s, 128, stdin) )
+  {
+    puts("Input error.");
+    exit(0);
+  }
+  s[strcspn(s, "\n")] = 0;
+  if ( (unsigned int)sub_1240(s) )
+    return puts(
+             "RIGHT YOU ARE ! ! ! maybe you can also predict the release date of his next album, but that's for another challenge...");
+  else
+    return puts("new attempt, same old mistakes");
+}

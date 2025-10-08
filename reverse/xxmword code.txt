@@ -1,0 +1,27 @@
+xxmword code
+
+.rodata:000000000000232D                 align 10h
+.rodata:0000000000002330 xmmword_2330    xmmword 12000F900EA00E700E000FD00DE00C9h
+.rodata:0000000000002330                                         ; DATA XREF: sub_1240+2B↑r
+.rodata:0000000000002340 xmmword_2340    xmmword 11800B70124009F00FC0121009C00FFh
+.rodata:0000000000002340                                         ; DATA XREF: sub_1240+44↑r
+.rodata:0000000000002350 xmmword_2350    xmmword 16400D90148012D00CC014100BC0135h
+.rodata:0000000000002350                                         ; DATA XREF: sub_1240+5B↑r
+.rodata:0000000000002360 xmmword_2360    xmmword 16001750100015D015400EF0142015Fh
+.rodata:0000000000002360                                         ; DATA XREF: sub_1240+6D↑r
+.rodata:0000000000002370 xmmword_2370    xmmword 0F0B0703070B0F0B0703070B0F0B0703h
+.rodata:0000000000002370                                         ; DATA XREF: sub_1240+12↑r
+.rodata:0000000000002380 xmmword_2380    xmmword 703070B0F0B0703070B0F0B0703070Bh
+.rodata:0000000000002380                                         ; DATA XREF: sub_1240+1E↑r
+.rodata:0000000000002390 qword_2390      dq 11C0183011C018Fh     ; DATA XREF: sub_1240+38↑r
+.rodata:0000000000002390 _rodata         ends
+.rodata:0000000000002390
+.eh_frame_hdr:0000000000002398 ; ===========================================================================
+.eh_frame_hdr:0000000000002398
+.eh_frame_hdr:0000000000002398 ; Segment type: Pure data
+.eh_frame_hdr:0000000000002398 ; Segment permissions: Read
+.eh_frame_hdr:0000000000002398 _eh_frame_hdr   segment dword public 'CONST' use64
+.eh_frame_hdr:0000000000002398                 assume cs:_eh_frame_hdr
+.eh_frame_hdr:0000000000002398                 ;org 2398h
+.eh_frame_hdr:0000000000002398 unk_2398        db    1                 ; DATA XREF: LOAD:00000000000002B8↑o
+.eh_frame_hdr:0000000000002399                 db  1Bh

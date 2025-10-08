@@ -584,3 +584,20 @@ Gemini AI
 
 `--------------------------------------------------------------------------------------------------------------------`
 
+# Challenge Name
+
+
+## My solve
+**Flag:** `citadel{f0r_0n3_m0r3_h0ur_1_c4n_r4g3}`
+
+1.This was the most time consuming question for me since I had no idea what to do with file `tameimpala`. I first went and read it's file properties and there it showed that the file is executable type and obviously I didn't knew what that was. I ran that file with the command `./tameimpala`. After that I saw it asked for a key to proceed ahead to Level 2. I put the file into chatgpt and it told me that for this question I will have to use Ghidra or IDA for the question. I first tried with Ghidra but was having a little hard time understanding anything with it. I decided to switch to IDA since I read on google that it is comparatively more user friendly.
+2. Now after installing IDA I asked for exact steps from Chatgpt on how to reverse engineer a file using IDA. Nearly after 30-60 minutes of learning from here and there I finally got the answer for Level 1 and Level 2 since they were just basically hardcoded in the function itself. In IDA I filtered strings by "LEVEL" and double clicked the level I wanted to reverse engineer. After that pressing F5 takes us to the decompilation window. This is how I got the answers for Level 1 and Level 2 which was `Music to Walk Home By` and `8168008135` respectively. But Level 3 function was much more complex since it had some encryption formula. What I did for solving this is I copied hex dump, function code, sub_1240 code and even xxxmword code and gave it to chatgpt to compute further and find me the answer by decrpyting the encryption formula and hence got the flag. I have attached all the files in the folder called `"reverse"`.
+
+## What I learned`
+How to use ghidra and IDA for decompiling codes and functions
+
+## References 
+Google,Youtube,Gemini and Chatgpt
+
+`--------------------------------------------------------------------------------------------------------------------`
+
