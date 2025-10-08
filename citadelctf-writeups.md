@@ -224,3 +224,59 @@ OSINT
 
 ## References 
 Google
+
+
+
+# Challenge Name
+Echoes and Pings
+
+## My solve
+**Flag:** `citadel{7h3_c174d3l_b3ck0n5}`
+
+1. When i first saw the `pcap` file my first reaction was searching on the internet to understand "how to analyse a pcap file". The first answer was `wireshark` so I installed wireshark and loaded the file into it. Unfortunately I didn't understood anything that was being displayed there.
+2. So it was time to search on youtube for "How to use wireshark to analyse pcap" I have attached the link of the video I used to learn about it plus I also asked AI what can be the process of analysing such files. Chatgpt suggested me to look into "ICMP" that is internet control message protocol since that's what deals with echoes and pings.
+3. I am attaching images to show what I did and how I did:
+![Start screen after loading the file](images/ws1.png "Start Screen after Loading the file")
+image1:Start Screen after Loading the file
+![Alt text](images/ws2.png "Filtering to icmp only")
+image2:Filtering to icmp only
+![Alt text](images/ws3.png "Opening the first protocol")
+image3:Opening the first protocol
+
+4.Now I saw the text "jfif" searched for it on chatgpt and got to know that there is a image hidden in it.
+5. To extract that image chatgpt wrote a scapy python code which I ran and got the answer using that python script.
+6. the python script: 
+```bash
+from scapy.all import rdpcap, Raw
+
+# The name of your pcap file
+pcap_file = 'challenge.pcap'
+
+# Variable to hold the reassembled file data
+full_data = b''
+
+# Read the pcap file
+packets = rdpcap(pcap_file)
+
+# Loop through every packet in the file
+for packet in packets:
+    # Check if the packet has an ICMP layer AND a data payload (Raw layer)
+    if packet.haslayer('ICMP') and packet.haslayer('Raw'):
+        # Extract the raw data payload and append it
+        full_data += packet['Raw'].load
+
+# Write the combined binary data to a new file
+with open('extracted_file', 'wb') as f:
+    f.write(full_data)
+
+print(f"Extraction complete! Data saved to 'extracted_file'.")
+print("Next, use the 'file' command to identify its type (e.g., 'file extracted_file').")
+```
+7. Eventually I got the image which had the flag:  ![Alt text](images/extracted_file "Final flag")
+## What I learned
+How to use wireshark and ICMP
+
+## References 
+yt video: "https://youtu.be/ZNS115MPsO0?si=TkDHZEyhJcw95LdI"
+Chatgpt
+Google
