@@ -651,3 +651,18 @@ Grok AI
 
 `--------------------------------------------------------------------------------------------------------------------`
 
+# Challenge Name
+Memory's Heavy Burden
+
+## My solve
+**Flag:** `I forgot which flag I submitted for this question and it's impossible to find it now since flag submission is off`
+
+For this challenge I simply fed the image again to Grok AI and it gave me the exact location link of the place on Google maps. I simply then rounded off to upto 3 decimal places and after trying two three combinations finally got the correct flag.
+
+## What I learned
+Geo Location Searching
+
+## References 
+Grok AI
+
+`--------------------------------------------------------------------------------------------------------------------`
