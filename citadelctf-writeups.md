@@ -627,3 +627,27 @@ SQL Injections
 
 ## References 
 Grok AI, Chatgpt, Gemini AI 
+
+`--------------------------------------------------------------------------------------------------------------------`
+
+# Challenge Name
+bratcha
+
+## My solve
+**Flag:** `citadel{1m_3v3rywh3r3_1m_s0_jul1a}`
+
+As we can see in the image every single place has two options. So I told Grok AI this prompt: "just do this: visit all this links for me and tell if any contain flags(you will have to visit 2^8 links)
+pastebin.com/(s or c)(g or q)(x or y)(h or n)(x or v)(B or D)(h or n)(Z or S)
+
+dont add raw after pastebin.com
+no need to search anywhere on the internet except what i am telling you to do"
+Now grok searched for all 256 links and finally figured out that the link `https://pastebin.com/sqxnxBhZ` was the only link that contained something. From here I finally got the flag. The reason I used grok for this task is that Grok is the only AI that is allowed to access sites on our requests most of the other AIs will simply reject the request.
+
+## What I learned
+Searching through a permutation of links
+
+## References 
+Grok AI
+
+`--------------------------------------------------------------------------------------------------------------------`
+
